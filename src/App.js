@@ -7,6 +7,7 @@ import './App.css';
 
 import Socket from './containers/Socket';
 import Book from './containers/Book';
+import Trades from './containers/Trades';
 
 import ducks from './ducks';
 
@@ -19,7 +20,8 @@ class App extends Component {
       <Provider store={store}>
         <div>
           <Socket />
-          <Book symbol="tETHUSD" />
+          {/* <Book symbol="tETHUSD" /> */}
+          <Trades symbol="tETHUSD" />
         </div>
       </Provider>
     );

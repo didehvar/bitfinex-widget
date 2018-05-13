@@ -1,6 +1,6 @@
 import { sendMessage, MESSAGE } from '../socket';
 
-export default function reducer(state = [], action = {}) {
+export default function reducer(state = {}, action = {}) {
   switch (action.type) {
     case MESSAGE:
       const { payload } = action;
