@@ -22,9 +22,11 @@ class App extends Component {
       <Provider store={store}>
         <div>
           <Socket />
+          <div>
+            <CloseWebsocketButton />
+          </div>
           <Widget name="Books">{symbol => <Book symbol={symbol} />}</Widget>
           <Widget name="Trades">{symbol => <Trades symbol={symbol} />}</Widget>
-          <CloseWebsocketButton />
         </div>
       </Provider>
     );
