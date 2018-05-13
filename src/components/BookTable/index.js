@@ -3,7 +3,7 @@ import React from 'react';
 import './style.css';
 
 const BookTable = ({ reverse = false, children }) => (
-  <table class="book-table">
+  <table className="book-table">
     <thead>
       <tr>
         <th>{reverse ? 'Count' : 'Price'}</th>

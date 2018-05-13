@@ -21,15 +21,15 @@ class Book extends Component {
     if (!book.instances) return <div>Loading</div>;
 
     return [
-      <BookTable symbol={symbol}>
+      <BookTable key="left" symbol={symbol}>
         {book.instances
           .filter(bk => bk.amount > 0)
-          .map(bk => <BookRow {...bk} />)}
+          .map((bk, i) => <BookRow key={i} {...bk} />)}
       </BookTable>,
-      <BookTable symbol={symbol}>
+      <BookTable key="right" symbol={symbol}>
         {book.instances
           .filter(bk => bk.amount < 0)
-          .map(bk => <BookRow reverse {...bk} />)}
+          .map((bk, i) => <BookRow key={i} reverse {...bk} />)}
       </BookTable>,
     ];
   }

@@ -21,7 +21,7 @@ class App extends Component {
         <div>
           <Socket />
           <Book symbol="tETHUSD" />
-          {/* <Trades symbol="tETHUSD" /> */}
+          <Trades symbol="tETHUSD" />
         </div>
       </Provider>
     );

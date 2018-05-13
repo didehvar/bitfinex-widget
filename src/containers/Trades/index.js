@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import { subscribeToTrades } from '../../ducks/data/trades';
 
+import TradesTable from '../../components/TradesTable';
+import TradesRow from '../../components/TradesRow';
+
 class Trades extends Component {
   async componentDidMount() {
     try {
@@ -15,11 +18,12 @@ class Trades extends Component {
   render() {
     const { symbol, trades } = this.props;
 
+    if (!trades.instances) return <div>Loading</div>;
+
     return (
-      <div>
-        {symbol}
-        <div>{JSON.stringify(trades)}</div>
-      </div>
+      <TradesTable>
+        {trades.instances.map((trade, i) => <TradesRow key={i} {...trade} />)}
+      </TradesTable>
     );
   }
 }

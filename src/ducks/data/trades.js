@@ -36,8 +36,6 @@ export default function reducer(state = [], action = {}) {
 
       if (!Array.isArray(payload[2])) return state;
 
-      console.log('💁🏼‍♂️', symbol);
-
       if (!symbol) return state;
 
       const [id, mts, amount, price] = data;
@@ -54,8 +52,6 @@ export default function reducer(state = [], action = {}) {
           ],
         },
       };
-
-      return state;
     default:
       return state;
   }
