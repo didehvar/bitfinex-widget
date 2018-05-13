@@ -1,0 +1,9 @@
+.widget {
+  margin: 1rem;
+  vertical-align: top;
+}
+
+.widget,
+.widget-child {
+  display: inline-block;
+}
