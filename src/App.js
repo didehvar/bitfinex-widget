@@ -11,6 +11,7 @@ import Trades from './containers/Trades';
 import CloseWebsocketButton from './containers/CloseWebsocketButton';
 import SymbolDropdown from './containers/SymbolDropdown';
 import Widget from './containers/Widget';
+import Ticker from './containers/Ticker';
 
 import ducks from './ducks';
 
@@ -27,6 +28,7 @@ class App extends Component {
             <CloseWebsocketButton />
             <SymbolDropdown />
           </div>
+          <Ticker />
           <Widget name="Books">{symbol => <Book symbol={symbol} />}</Widget>
           <Widget name="Trades">{symbol => <Trades symbol={symbol} />}</Widget>
         </div>

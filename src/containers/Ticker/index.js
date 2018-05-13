@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getSymbols } from '../../ducks/data/symbols';
+import { getTickers } from '../../ducks/data/tickers';
 
 import TickerTable from '../../components/TickerTable';
 import TickerRow from '../../components/TickerRow';
@@ -9,31 +10,40 @@ import TickerRow from '../../components/TickerRow';
 class Ticker extends Component {
   async componentDidMount() {
     try {
-      await this.props.getSymbols();
+      const symbols = await this.props.getSymbols();
+      await this.props.getTickers(symbols);
     } catch (ex) {
       console.error(ex);
     }
   }
 
   render() {
-    const { symbols } = this.props;
+    const { ticker } = this.props;
+
+    if (!ticker) return <div>Loading</div>;
 
     return (
       <TickerTable>
-        {symbols.map(symbol => (
-          <TickerRow
-            key={symbol}
-            symbol={symbol}
-            last={Math.random() * 600}
-            changePercent={Math.random() * 3}
-            volume={Math.random() * 100000}
-          />
-        ))}
+        <TickerRow
+          key={ticker.symbol}
+          symbol={ticker.symbol}
+          last={ticker.last}
+          changePercent={ticker.dailyChangePercent}
+          volume={ticker.dailyChange}
+        />
       </TickerTable>
     );
   }
 }
 
-export default connect(state => ({ symbols: state.data.symbols }), {
-  getSymbols,
-})(Ticker);
+export default connect(
+  state => ({
+    ticker: state.data.tickers.find(
+      ticker => ticker.symbol === state.ui.symbol,
+    ),
+  }),
+  {
+    getSymbols,
+    getTickers,
+  },
+)(Ticker);

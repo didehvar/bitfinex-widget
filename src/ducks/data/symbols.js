@@ -16,5 +16,9 @@ export const loadSymbols = symbols => ({
 
 export const getSymbols = () => async dispatch => {
   const res = await fetch('/symbols');
-  dispatch(loadSymbols(await res.json()));
+  const symbols = await res.json();
+
+  dispatch(loadSymbols(symbols));
+
+  return symbols;
 };
