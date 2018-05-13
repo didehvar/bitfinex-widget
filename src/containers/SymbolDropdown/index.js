@@ -15,6 +15,9 @@ class SymbolDropdown extends Component {
 
   render() {
     const { symbols, symbol } = this.props;
+
+    if (!symbols) return <div>Loading</div>;
+
     return (
       <select name="dropdown" value={symbol} onChange={this.handleChange}>
         {symbols.map(symbol => (

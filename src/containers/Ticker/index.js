@@ -8,13 +8,23 @@ import TickerTable from '../../components/TickerTable';
 import TickerRow from '../../components/TickerRow';
 
 class Ticker extends Component {
+  refreshTimer = null;
+
   async componentDidMount() {
     try {
       const symbols = await this.props.getSymbols();
       await this.props.getTickers(symbols);
+
+      this.refreshTimer = setInterval(async () => {
+        await this.props.getTickers(symbols);
+      }, 5000);
     } catch (ex) {
       console.error(ex);
     }
+  }
+
+  componentWillUnmount() {
+    if (this.refreshTimer) clearInterval(this.refreshTimer);
   }
 
   render() {

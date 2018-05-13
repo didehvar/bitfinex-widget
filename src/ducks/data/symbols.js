@@ -3,6 +3,7 @@ const LOAD = 'data/symbols/LOAD';
 export default function reducer(state = [], action = {}) {
   switch (action.type) {
     case LOAD:
+      if (!action.payload || action.payload.error) return state;
       return action.payload.map(symbol => `t${symbol.toUpperCase()}`);
     default:
       return state;
