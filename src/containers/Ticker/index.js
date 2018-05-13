@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { getSymbols } from '../../ducks/data/symbols';
 
 import TickerTable from '../../components/TickerTable';
 import TickerRow from '../../components/TickerRow';
 
 class Ticker extends Component {
-  state = { symbols: [] };
-
   async componentDidMount() {
     try {
-      const res = await fetch('/symbols');
-      this.setState({ symbols: await res.json() });
+      await this.props.getSymbols();
     } catch (ex) {
       console.error(ex);
     }
   }
 
   render() {
-    const { symbols } = this.state;
+    const { symbols } = this.props;
 
     return (
       <TickerTable>
@@ -34,4 +34,6 @@ class Ticker extends Component {
   }
 }
 
-export default Ticker;
+export default connect(state => ({ symbols: state.data.symbols }), {
+  getSymbols,
+})(Ticker);
