@@ -50,18 +50,30 @@ export default function reducer(state = {}, action = {}) {
           };
         }
       } else {
+        const exists = state[symbol].instances.find(i => i.price === price);
+
+        if (exists) {
+          return {
+            ...state,
+            [symbol]: {
+              chanId,
+              instances: state[symbol].instances.map(instance => {
+                if (instance.price !== price) return instance;
+                return {
+                  price,
+                  count,
+                  amount,
+                };
+              }),
+            },
+          };
+        }
+
         return {
           ...state,
           [symbol]: {
             chanId,
-            instances: state[symbol].instances.map(instance => {
-              if (instance.price !== price) return instance;
-              return {
-                price,
-                count,
-                amount,
-              };
-            }),
+            instances: [...state[symbol].instances, { price, count, amount }],
           },
         };
       }
