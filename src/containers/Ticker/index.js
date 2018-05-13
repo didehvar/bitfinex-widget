@@ -1,42 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getSymbols } from '../../ducks/data/symbols';
-import { getTickers } from '../../ducks/data/tickers';
+import { subscribeToTicker } from '../../ducks/data/tickers';
 
 import TickerTable from '../../components/TickerTable';
 import TickerRow from '../../components/TickerRow';
 
 class Ticker extends Component {
-  refreshTimer = null;
-
   async componentDidMount() {
     try {
-      const symbols = await this.props.getSymbols();
-      await this.props.getTickers(symbols);
-
-      this.refreshTimer = setInterval(async () => {
-        await this.props.getTickers(symbols);
-      }, 5000);
+      await this.props.subscribeToTicker(this.props.symbol);
     } catch (ex) {
       console.error(ex);
     }
   }
 
-  componentWillUnmount() {
-    if (this.refreshTimer) clearInterval(this.refreshTimer);
+  async componentDidUpdate(prevProps) {
+    if (prevProps.symbol !== this.props.symbol) {
+      try {
+        await this.props.subscribeToTicker(this.props.symbol);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
   }
 
   render() {
-    const { ticker } = this.props;
+    const { ticker, symbol } = this.props;
 
     if (!ticker) return <div>Loading</div>;
 
     return (
       <TickerTable>
         <TickerRow
-          key={ticker.symbol}
-          symbol={ticker.symbol}
+          key={symbol}
+          symbol={symbol}
           last={ticker.last}
           changePercent={ticker.dailyChangePercent}
           volume={ticker.dailyChange}
@@ -48,12 +46,8 @@ class Ticker extends Component {
 
 export default connect(
   state => ({
-    ticker: state.data.tickers.find(
-      ticker => ticker.symbol === state.ui.symbol,
-    ),
+    symbol: state.ui.symbol,
+    ticker: state.data.tickers[state.ui.symbol],
   }),
-  {
-    getSymbols,
-    getTickers,
-  },
+  { subscribeToTicker },
 )(Ticker);

@@ -1,27 +1,45 @@
-const LOAD_TICKERS = 'data/tickers/LOAD_TICKERS';
+import { sendMessage, MESSAGE } from '../socket';
 
 export default function reducer(state = [], action = {}) {
   switch (action.type) {
-    case LOAD_TICKERS:
-      return action.payload.map(ticker => ({
-        symbol: ticker[0],
-        dailyChange: ticker[5],
-        dailyChangePercent: ticker[6],
-        last: ticker[7],
-      }));
+    case MESSAGE:
+      const { payload } = action;
+
+      if (!payload) return state;
+
+      if (payload.event === 'subscribed' && payload.channel === 'ticker') {
+        return { ...state, [payload.symbol]: { chanId: payload.chanId } };
+      }
+
+      if (!Array.isArray(payload) || !Array.isArray(payload[1])) return state;
+
+      const [chanId, data] = payload;
+      const symbol = Object.keys(state).find(
+        symbol => state[symbol].chanId === chanId,
+      );
+
+      if (!symbol) return state;
+
+      return {
+        ...state,
+        [symbol]: {
+          chanId,
+          dailyChange: data[4],
+          dailyChangePercent: data[5],
+          last: data[6],
+        },
+      };
     default:
       return state;
   }
 }
 
-export const loadTickers = tickers => ({
-  type: LOAD_TICKERS,
-  payload: tickers,
-});
-
-export const getTickers = symbols => async dispatch => {
-  const res = await fetch(
-    `/tickers?symbols=${symbols.map(s => `t${s.toUpperCase()}`).join(',')}`,
+export const subscribeToTicker = symbol => async dispatch => {
+  dispatch(
+    sendMessage({
+      event: 'subscribe',
+      channel: 'ticker',
+      symbol,
+    }),
   );
-  dispatch(loadTickers(await res.json()));
 };
