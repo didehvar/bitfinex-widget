@@ -26,7 +26,7 @@ class Book extends Component {
           .filter(bk => bk.amount > 0)
           .map((bk, i) => <BookRow key={i} {...bk} />)}
       </BookTable>,
-      <BookTable key="right" symbol={symbol}>
+      <BookTable key="right" reverse symbol={symbol}>
         {book.instances
           .filter(bk => bk.amount < 0)
           .map((bk, i) => <BookRow key={i} reverse {...bk} />)}
