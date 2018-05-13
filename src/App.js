@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import './App.css';
 
 import Socket from './containers/Socket';
-import TickerWidget from './containers/TickerWidget';
+import Book from './containers/Book';
 
 import ducks from './ducks';
 
@@ -19,7 +19,7 @@ class App extends Component {
       <Provider store={store}>
         <div>
           <Socket />
-          <TickerWidget />
+          <Book symbol="tETHUSD" />
         </div>
       </Provider>
     );
