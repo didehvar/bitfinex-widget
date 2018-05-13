@@ -15,6 +15,16 @@ class Book extends Component {
     }
   }
 
+  async componentDidUpdate(prevProps) {
+    if (prevProps.symbol !== this.props.symbol) {
+      try {
+        await this.props.subscribeToBook(this.props.symbol);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
+  }
+
   render() {
     const { symbol, book } = this.props;
 

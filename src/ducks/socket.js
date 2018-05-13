@@ -23,7 +23,7 @@ export default function reducer(state = { subs: [] }, action = {}) {
 const sendWhenReady = message =>
   setTimeout(() => {
     if (socket.readyState === 1) return socket.send(JSON.stringify(message));
-    sendWhenReady();
+    sendWhenReady(message);
   }, 5);
 
 const start = (dispatch, getState) => {

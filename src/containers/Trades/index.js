@@ -15,8 +15,18 @@ class Trades extends Component {
     }
   }
 
+  async componentDidUpdate(prevProps) {
+    if (prevProps.symbol !== this.props.symbol) {
+      try {
+        await this.props.subscribeToTrades(this.props.symbol);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
+  }
+
   render() {
-    const { symbol, trades } = this.props;
+    const { trades } = this.props;
 
     if (!trades.instances) return <div>Loading</div>;
 

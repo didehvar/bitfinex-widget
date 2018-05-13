@@ -48,7 +48,7 @@ export default function reducer(state = [], action = {}) {
             ...state[symbol].instances
               .sort((a, b) => b.mts - a.mts)
               .slice(0, -1),
-            { id, mts, amount, price },
+            { id, mts, amount, price, type },
           ],
         },
       };
