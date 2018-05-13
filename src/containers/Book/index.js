@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import { subscribeToBook } from '../../ducks/data/books';
 
+import BookTable from '../../components/BookTable';
+import BookRow from '../../components/BookRow';
+
 class Book extends Component {
   async componentDidMount() {
     try {
@@ -13,19 +16,27 @@ class Book extends Component {
   }
 
   render() {
-    const { symbol, books } = this.props;
+    const { symbol, book } = this.props;
 
-    return (
-      <div>
-        {symbol}
-        <div>{JSON.stringify(books)}</div>
-      </div>
-    );
+    if (!book.instances) return <div>Loading</div>;
+
+    return [
+      <BookTable symbol={symbol}>
+        {book.instances
+          .filter(bk => bk.amount > 0)
+          .map(bk => <BookRow {...bk} />)}
+      </BookTable>,
+      <BookTable symbol={symbol}>
+        {book.instances
+          .filter(bk => bk.amount < 0)
+          .map(bk => <BookRow reverse {...bk} />)}
+      </BookTable>,
+    ];
   }
 }
 
 export default connect(
-  (state, props) => ({ books: state.data.books[props.symbol] || {} }),
+  (state, props) => ({ book: state.data.books[props.symbol] || {} }),
   {
     subscribeToBook,
   },

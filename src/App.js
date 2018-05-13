@@ -20,8 +20,8 @@ class App extends Component {
       <Provider store={store}>
         <div>
           <Socket />
-          {/* <Book symbol="tETHUSD" /> */}
-          <Trades symbol="tETHUSD" />
+          <Book symbol="tETHUSD" />
+          {/* <Trades symbol="tETHUSD" /> */}
         </div>
       </Provider>
     );
