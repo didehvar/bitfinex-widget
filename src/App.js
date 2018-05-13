@@ -5,7 +5,8 @@ import thunk from 'redux-thunk';
 
 import './App.css';
 
-import Ticker from './containers/Ticker';
+import Socket from './containers/Socket';
+import TickerWidget from './containers/TickerWidget';
 
 import ducks from './ducks';
 
@@ -16,7 +17,10 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Ticker />
+        <div>
+          <Socket />
+          <TickerWidget />
+        </div>
       </Provider>
     );
   }
