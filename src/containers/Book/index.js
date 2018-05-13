@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { subscribeToBooks } from '../../ducks/data/books';
+import { subscribeToBook } from '../../ducks/data/books';
 
 class Book extends Component {
   async componentDidMount() {
     try {
-      await this.props.subscribeToBooks(this.props.symbol);
+      await this.props.subscribeToBook(this.props.symbol);
     } catch (ex) {
       console.error(ex);
     }
@@ -27,6 +27,6 @@ class Book extends Component {
 export default connect(
   (state, props) => ({ books: state.data.books[props.symbol] || {} }),
   {
-    subscribeToBooks,
+    subscribeToBook,
   },
 )(Book);

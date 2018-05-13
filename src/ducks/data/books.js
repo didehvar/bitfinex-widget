@@ -72,7 +72,7 @@ export default function reducer(state = [], action = {}) {
   }
 }
 
-export const subscribeToBooks = (
+export const subscribeToBook = (
   symbol,
   precision,
   frequency,
